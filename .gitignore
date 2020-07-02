@@ -1,0 +1,13 @@
+# IDE Files
+.idea/
+*.iml
+
+# Secret Files
+.env
+config.json
+
+# NPM Files
+node_modules/
+
+# Output Files
+dist/
