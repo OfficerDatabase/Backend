@@ -25,5 +25,27 @@ export default {
 
         const { error } = schema.validate(data)
         return error.message
+    },
+    newOfficer(data) {
+        const schema = Joi.object({
+            fullname: Joi
+                .string()
+                .max(50)
+                .default('Unknown'),
+            badge: Joi
+                .string()
+                .max(7)
+                .default('Unknown'),
+            created_by: Joi
+                .string()
+                .default(null),
+            picture: Joi
+                .string()
+                .base64()
+                .required()
+        })
+
+        const { error } = schema.validate(data)
+        return error.message
     }
 }

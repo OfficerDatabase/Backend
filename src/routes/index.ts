@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import incidents from "./incidents";
+import officers from "./officers";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use((req, res, next) => {
 });
 
 router.use('/incidents', incidents);
+router.use('/officers', officers);
 
 export default router;

@@ -44,7 +44,7 @@ incidents.get('/:id', async (req, res) => {
     }
 })
 
-incidents.delete('/:id', async (req, res) => {
+incidents.delete('/:id', helpers.authenticated, async (req, res) => {
     try {
         const { id } = req.params
         await Incident.findByIdAndDelete(id)
