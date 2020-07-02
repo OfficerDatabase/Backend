@@ -5,13 +5,19 @@ import helpers from "../helpers";
 
 const incidents = Router();
 
-incidents.get('/', async ({ body }, res) => {
+const limit = 20;
+
+incidents.get('/', async ({ query }, res) => {
     try {
-        const documents = await Incident
+        const page = query.page || 0
+
+        const incidents = await Incident
             .find({})
+            .limit(limit)
+            .skip(parseInt(page.toString()) * limit)
             .lean();
 
-        res.json(documents);
+        res.json({ data: incidents });
     } catch (error) {
         helpers.sendError(res, error);
     }
@@ -36,9 +42,10 @@ incidents.get('/:id', async (req, res) => {
     try {
         const { id } = req.params
         const incident = await Incident.findById(id)
+            .populate('officer')
             .lean();
 
-        res.json(incident);
+        res.json({ data: incident });
     } catch (error) {
         helpers.sendError(res, error);
     }

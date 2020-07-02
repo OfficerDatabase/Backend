@@ -26,7 +26,21 @@ officers.get('/:id', async (req, res) => {
         const officer = await Officer.findById(id)
             .lean();
 
-        res.json(officer);
+        res.json({ data: officer });
+    } catch (error) {
+        helpers.sendError(res, error);
+    }
+})
+
+officers.get('/:id/incidents', async (req, res) => {
+    try {
+        const { id } = req.params
+        const incidents = await Officer.findById(id)
+            .populate('incidents')
+            .select('incidents')
+            .lean();
+
+        res.json({ data: incidents });
     } catch (error) {
         helpers.sendError(res, error);
     }
