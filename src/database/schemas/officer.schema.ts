@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import autoIncrement from 'mongoose-auto-increment';
 
 const schema = new Schema({
     fullname: {
@@ -39,6 +40,8 @@ const schema = new Schema({
     }
 });
 
-const Officer = model('incident', schema);
+schema.plugin(autoIncrement.plugin, 'officer')
+
+const Officer = model('officer', schema);
 
 export default Officer;

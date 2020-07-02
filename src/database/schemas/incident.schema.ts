@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import autoIncrement from 'mongoose-auto-increment';
 
 const schema = new Schema({
     title: {
@@ -31,6 +32,8 @@ const schema = new Schema({
         default: Date.now
     }
 });
+
+schema.plugin(autoIncrement.plugin, 'incident')
 
 const Incident = model('incident', schema);
 

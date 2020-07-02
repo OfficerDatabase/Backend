@@ -1,4 +1,5 @@
-import { connect, ConnectionOptions, Mongoose } from 'mongoose';
+import { connect,connection, ConnectionOptions, Mongoose } from 'mongoose';
+import autoIncrement from 'mongoose-auto-increment';
 
 const variables = [
     process.env.MONGO_USER,
@@ -16,6 +17,8 @@ const options: ConnectionOptions = {
     useUnifiedTopology: true,
     useFindAndModify: false
 }
+
+autoIncrement.initialize(connection);
 
 export default {
     connect(): Promise<Mongoose> {
