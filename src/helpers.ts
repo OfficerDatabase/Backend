@@ -10,7 +10,7 @@ export default {
     sendError(res, error: string | Object = 'Internal error', status = 500) {
         res.status(status).json({ error });
     },
-    authenticated() {
-        return false
+    authenticated(req, res, next) {
+        return this.sendError(res, 'Unauthenticated', 401)
     }
 }
