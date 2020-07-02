@@ -33,7 +33,7 @@ const schema = new Schema({
     }
 });
 
-schema.plugin(autoIncrement.plugin, 'incident')
+schema.plugin(autoIncrement.plugin, 'incident');
 
 const Incident = model('incident', schema);
 

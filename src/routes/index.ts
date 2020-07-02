@@ -1,17 +1,17 @@
 import { Router } from 'express';
 
-import incidents from "./incidents";
-import officers from "./officers";
+import incidents from './incidents';
+import officers from './officers';
 
 const router = Router();
 
 router.use((req, res, next) => {
-    const body = req.body
+    const body = req.body;
     if (!body) {
-        return res.status(400).json({error: 'No body found on request'})
+        return res.status(400).json({ error: 'No body found on request' });
     }
 
-    next()
+    next();
 });
 
 router.use('/incidents', incidents);

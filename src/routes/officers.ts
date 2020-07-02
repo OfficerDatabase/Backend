@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import Officer from "../database/schemas/officer.schema";
-import validation from "../validation";
-import helpers from "../helpers";
+import Officer from '../database/schemas/officer.schema';
+import validation from '../validation';
+import helpers from '../helpers';
 
 const officers = Router();
 
@@ -18,11 +18,11 @@ officers.post('/', async ({ body }, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 officers.get('/:id', async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         const officer = await Officer.findById(id)
             .lean();
 
@@ -30,11 +30,11 @@ officers.get('/:id', async (req, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 officers.get('/:id/incidents', async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         const incidents = await Officer.findById(id)
             .populate('incidents')
             .select('incidents')
@@ -44,16 +44,16 @@ officers.get('/:id/incidents', async (req, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 officers.delete('/:id', helpers.authenticated, async (req, res) => {
     try {
-        const { id } = req.params
-        await Officer.findByIdAndDelete(id)
+        const { id } = req.params;
+        await Officer.findByIdAndDelete(id);
         res.sendStatus(204);
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 export default officers;

@@ -8,24 +8,26 @@ const variables = [
     process.env.MONGO_DB
 ];
 
-const [ user, password, host, db ] = variables;
+const [
+    user, password, host, db 
+] = variables;
 
-const url = `mongodb+srv://${ user }:${ password }@${ host }/${ db }`
+const url = `mongodb+srv://${ user }:${ password }@${ host }/${ db }`;
 
 const options: ConnectionOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
-}
+};
 
 autoIncrement.initialize(connection);
 
 export default {
     connect(): Promise<Mongoose> {
-        console.log('Connecting to database...')
+        console.log('Connecting to database...');
         if (variables.some(value => value === undefined)) {
-            throw 'At least one of the environmental variables was not set'
+            throw 'At least one of the environmental variables was not set';
         }
-        return connect(url, options)
+        return connect(url, options);
     }
-}
+};

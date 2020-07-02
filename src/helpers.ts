@@ -11,6 +11,6 @@ export default {
         res.status(status).json({ error });
     },
     authenticated(req, res, next) {
-        return this.sendError(res, 'Unauthenticated', 401)
+        return this.sendError(res, 'Unauthenticated', 401);
     }
-}
+};

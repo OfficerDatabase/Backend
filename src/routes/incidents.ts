@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import Incident from "../database/schemas/incident.schema";
-import validation from "../validation";
-import helpers from "../helpers";
+import Incident from '../database/schemas/incident.schema';
+import validation from '../validation';
+import helpers from '../helpers';
 
 const incidents = Router();
 
@@ -9,7 +9,7 @@ const limit = 20;
 
 incidents.get('/', async ({ query }, res) => {
     try {
-        const page = query.page || 0
+        const page = query.page || 0;
 
         const incidents = await Incident
             .find({})
@@ -21,7 +21,7 @@ incidents.get('/', async ({ query }, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 incidents.post('/', async ({ body }, res) => {
     try {
@@ -36,11 +36,11 @@ incidents.post('/', async ({ body }, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 incidents.get('/:id', async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
         const incident = await Incident.findById(id)
             .populate('officer')
             .lean();
@@ -49,16 +49,16 @@ incidents.get('/:id', async (req, res) => {
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 incidents.delete('/:id', helpers.authenticated, async (req, res) => {
     try {
-        const { id } = req.params
-        await Incident.findByIdAndDelete(id)
+        const { id } = req.params;
+        await Incident.findByIdAndDelete(id);
         res.sendStatus(204);
     } catch (error) {
         helpers.sendError(res, error);
     }
-})
+});
 
 export default incidents;

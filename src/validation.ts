@@ -1,4 +1,4 @@
-import Joi from '@hapi/joi'
+import Joi from '@hapi/joi';
 
 export default {
     newIncident(data) {
@@ -21,10 +21,10 @@ export default {
             created_by: Joi
                 .string()
                 .default(null),
-        })
+        });
 
-        const { error } = schema.validate(data)
-        return error.message
+        const { error } = schema.validate(data);
+        return error.message;
     },
     newOfficer(data) {
         const schema = Joi.object({
@@ -43,9 +43,9 @@ export default {
                 .string()
                 .base64()
                 .required()
-        })
+        });
 
-        const { error } = schema.validate(data)
-        return error.message
+        const { error } = schema.validate(data);
+        return error.message;
     }
-}
+};
