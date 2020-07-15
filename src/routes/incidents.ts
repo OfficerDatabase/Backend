@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Incident from '../database/schemas/incident.schema';
-import validation from '../validation';
-import helpers from '../helpers';
+import validation from '../util/validation';
+import helpers from '../util/helpers';
 
 const incidents = Router();
 
@@ -15,7 +15,8 @@ incidents.get('/', async ({ query }, res) => {
             .find({})
             .limit(limit)
             .skip(parseInt(page.toString()) * limit)
-            .lean();
+            .lean()
+            .exec();
 
         res.json({ data: incidents });
     } catch (error) {
@@ -27,7 +28,7 @@ incidents.post('/', async ({ body }, res) => {
     try {
         const error = validation.newIncident(body);
 
-        if (helpers.sendErrorIf(res, error)) return;
+        if (helpers.sendErrorIf(res, error, 400)) return;
 
         const incident = new Incident(body);
         await incident.save();
@@ -41,9 +42,11 @@ incidents.post('/', async ({ body }, res) => {
 incidents.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const incident = await Incident.findById(id)
+        const incident = await Incident
+            .findById(id)
             .populate('officer')
-            .lean();
+            .lean()
+            .exec();
 
         res.json({ data: incident });
     } catch (error) {
