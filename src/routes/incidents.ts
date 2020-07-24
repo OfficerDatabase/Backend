@@ -13,8 +13,9 @@ incidents.get('/', async ({ query }, res) => {
 
         const incidents = await Incident
             .find({})
-            .limit(limit)
             .skip(parseInt(page.toString()) * limit)
+            .limit(limit)
+            .sort('-created_at')
             .lean()
             .exec();
 
@@ -34,6 +35,24 @@ incidents.post('/', async ({ body }, res) => {
         await incident.save();
 
         res.json({ _id: incident._id });
+    } catch (error) {
+        helpers.sendError(res, error);
+    }
+});
+
+incidents.get('/latest', async ({ query }, res) => {
+    try {
+        const incidents = await Incident
+            .find({})
+            .select('officer created_by created_at')
+            .populate('officer')
+            .populate('')
+            .sort('-created_at')
+            .limit(8)
+            .lean()
+            .exec();
+
+        res.json({ data: incidents });
     } catch (error) {
         helpers.sendError(res, error);
     }

@@ -15,12 +15,12 @@ const schema = new Schema({
     incidents: [
         {
             type: Number,
-            ref: 'incident'
+            ref: 'incidents'
         } 
     ],
     latest_incident: {
         type: Number,
-        ref: 'incident',
+        ref: 'incidents',
         default: -1
     },
     picture: {
@@ -42,8 +42,8 @@ const schema = new Schema({
     }
 });
 
-schema.plugin(autoIncrement.plugin, 'officer');
+schema.plugin(autoIncrement.plugin, 'officers');
 
-const Officer = model('officer', schema);
+const Officer = model('officers', schema);
 
 export default Officer;

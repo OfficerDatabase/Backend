@@ -15,7 +15,7 @@ const schema = new Schema({
     },
     officer: {
         type: Number,
-        ref: 'officer',
+        ref: 'officers',
         default: -1
     },
     location: {
@@ -33,8 +33,8 @@ const schema = new Schema({
     }
 });
 
-schema.plugin(autoIncrement.plugin, 'incident');
+schema.plugin(autoIncrement.plugin, 'incidents');
 
-const Incident = model('incident', schema);
+const Incident = model('incidents', schema);
 
 export default Incident;

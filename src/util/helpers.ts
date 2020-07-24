@@ -8,6 +8,7 @@ export default {
         return false;
     },
     sendError(res, error: string | Object = 'Internal error', status = 500) {
+        console.log(error);
         res.status(status).json({ error });
     },
     authenticated(req, res, next) {

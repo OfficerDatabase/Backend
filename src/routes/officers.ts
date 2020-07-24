@@ -58,7 +58,10 @@ officers.get('/:id/incidents', async (req, res) => {
         const { id } = req.params;
         const incidents = await Officer
             .findById(id)
-            .populate('incidents')
+            .populate({
+                path: 'incidents',
+                sort: '-created_at'
+            })
             .select('incidents')
             .lean()
             .exec();
