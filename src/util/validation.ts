@@ -5,22 +5,26 @@ export default {
         const schema = Joi.object({
             title: Joi
                 .string()
-                .max(100)
-                .default(''),
+                .max(100),
             content: Joi
                 .string()
                 .min(50)
                 .max(2054)
                 .required(),
             officer: Joi
-                .number()
-                .default(-1),
-            location: Joi
-                .string()
-                .default('Unknown'),
-            created_by: Joi
-                .string()
-                .default(null),
+                .number(),
+            location: {
+                state: Joi.string(),
+                city: Joi.string()
+            },
+            created_by: {
+                name: Joi.string(),
+                age: Joi.string(),
+                sex: Joi.string(),
+                ethnicity: Joi.string(),
+                height: Joi.string(),
+                weight: Joi.string(),
+            }
         });
 
         const { error } = schema.validate(data);
@@ -36,16 +40,17 @@ export default {
                 .string()
                 .max(7)
                 .default('Unknown'),
-            created_by: Joi
+            location: Joi
                 .string()
                 .default(null),
-            picture: Joi
+            created_by: Joi
                 .string()
-                .base64()
-                .required()
+                .default(null)
         });
 
         const { error } = schema.validate(data);
-        return error.message;
+        return error && error.message;
+        'https://firebasestorage.googleapis.com/v0/b/officerdb-665a8.appspot.com/o/images%2Fofficers%2FArnaldo%20Treutel_500x500?alt=media';
+        'https://firebasestorage.googleapis.com/v0/b/officerdb-665a8.appspot.com/o/images%2Fofficers%2FArnaldo%20Treutel_500x500.jpg?alt=media';
     }
 };

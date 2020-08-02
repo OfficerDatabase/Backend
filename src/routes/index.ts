@@ -8,8 +8,8 @@ import helpers from '../util/helpers';
 
 const router = Router();
 
-router.use((req, res, next) => {
-    const body = req.body;
+router.use(({ body }, res, next) => {
+
     if (!body) {
         return res.status(400).json({ error: 'No body found on request' });
     }

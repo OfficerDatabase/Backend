@@ -2,10 +2,18 @@ import { Router } from 'express';
 import Officer from '../database/schemas/officer.schema';
 import validation from '../util/validation';
 import helpers from '../util/helpers';
+import Multer from 'multer';
+import { FirebaseFile } from '../util/classes';
 
 const officers = Router();
 
 const limit = 20;
+const multer = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize: 8 * (1024 * 1024)
+    }
+});
 
 officers.get('/', async ({ query }, res) => {
     try {
@@ -24,13 +32,23 @@ officers.get('/', async ({ query }, res) => {
     }
 });
 
-officers.post('/', async ({ body }, res) => {
+// @ts-ignore
+officers.post('/', multer.single('picture'), async ({ body, file }, res) => {
     try {
+        console.log(body);
         const error = validation.newOfficer(body);
 
         if (helpers.sendErrorIf(res, error, 400)) return;
 
-        const officer = new Officer(body);
+        const picture = await helpers.uploadFile(new FirebaseFile(
+            body.fullname,
+            file.mimetype,
+            file.buffer,
+            'images/officers',
+            file.originalname
+        ));
+
+        const officer = new Officer({ ...body, picture });
         await officer.save();
 
         res.json({ _id: officer._id });

@@ -2,6 +2,7 @@ import express from 'express';
 import routes from './routes';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import helpers from './util/helpers';
 
 const app = express();
 const host: string = process.env.HOST || 'localhost';
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, _) => {
+    console.error(error);
     res.status(500).json({ error: 'Internal error' });
 });
 
