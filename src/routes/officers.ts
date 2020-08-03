@@ -35,7 +35,6 @@ officers.get('/', async ({ query }, res) => {
 // @ts-ignore
 officers.post('/', multer.single('picture'), async ({ body, file }, res) => {
     try {
-        console.log(body);
         const error = validation.newOfficer(body);
 
         if (helpers.sendErrorIf(res, error, 400)) return;
