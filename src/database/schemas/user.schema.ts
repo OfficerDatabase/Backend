@@ -1,10 +1,29 @@
 import { model, Schema } from 'mongoose';
-import autoIncrement from 'mongoose-auto-increment';
 
 const schema = new Schema({
     name: {
         type: String,
         default: 'Anonymous'
+    },
+    age: {
+        type: String,
+        required: true
+    },
+    sex: {
+        type: String,
+        required: true
+    },
+    ethnicity: {
+        type: String,
+        required: true
+    },
+    height: {
+        type: String,
+        required: true
+    },
+    weight: {
+        type: String,
+        required: true
     },
     created_at: {
         type: Date,

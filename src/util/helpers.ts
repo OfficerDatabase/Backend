@@ -11,9 +11,9 @@ export default {
 
         return false;
     },
-    sendError(res, error: string | Object = 'Internal error', status = 500) {
+    sendError(res, error: any = 'Internal error', status = 500) {
         console.error(error);
-        res.status(status).json({ error });
+        res.status(status).json((status === 500) ? 'Internal error' : { error });
     },
     authenticated(req, res, next) {
         return this.sendError(res, 'Unauthenticated', 401);
@@ -21,7 +21,7 @@ export default {
     async uploadFile(file: FirebaseFile): Promise<string> {
         const storage = Firebase.storage();
         const bucket = storage.bucket();
-        const bucketFile = bucket.file(`${ file.location }/${ file.name }.${ file.extension }`);
+        const bucketFile = bucket.file(`${file.location}/${file.name}.${file.extension}`);
 
         await bucketFile.save(file.buffer, { contentType: 'auto' });
 

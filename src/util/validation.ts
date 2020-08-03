@@ -5,52 +5,59 @@ export default {
         const schema = Joi.object({
             title: Joi
                 .string()
-                .max(100),
+                .min(0)
+                .max(100)
+                .allow(''),
             content: Joi
                 .string()
                 .min(50)
                 .max(2054)
                 .required(),
             officer: Joi
-                .number(),
+                .string()
+                .valid(''),
             location: {
-                state: Joi.string(),
-                city: Joi.string()
+                state: Joi.string().allow(''),
+                city: Joi.string().allow('')
             },
-            created_by: {
-                name: Joi.string(),
-                age: Joi.string(),
-                sex: Joi.string(),
-                ethnicity: Joi.string(),
-                height: Joi.string(),
-                weight: Joi.string(),
-            }
+            created_by: Joi
+                .object({
+                    name: Joi.string().allow(''),
+                    age: Joi.string(),
+                    sex: Joi.string(),
+                    ethnicity: Joi.string(),
+                    height: Joi.string(),
+                    weight: Joi.string(),
+                })
+                .allow('')
         });
 
         const { error } = schema.validate(data);
-        return error.message;
+        return error && error.message;
     },
     newOfficer(data) {
         const schema = Joi.object({
             fullname: Joi
                 .string()
                 .max(50)
-                .default('Unknown'),
+                .default('Unknown')
+                .allow(''),
             badge: Joi
                 .string()
                 .max(7)
-                .default('Unknown'),
+                .default('Unknown')
+                .allow(''),
             location: Joi
                 .string()
-                .default(null),
+                .default(null)
+                .allow(''),
             created_by: Joi
                 .string()
                 .default(null)
+                .allow(''),
         });
 
         const { error } = schema.validate(data);
         return error && error.message;
-        'https://firebasestorage.googleapis.com/v0/b/officerdb-665a8.appspot.com/o/images%2Fofficers%2FArnaldo%20Treutel_500x500?alt=media';
-        'https://firebasestorage.googleapis.com/v0/b/officerdb-665a8.appspot.com/o/images%2Fofficers%2FArnaldo%20Treutel_500x500.jpg?alt=media';
     }
 };

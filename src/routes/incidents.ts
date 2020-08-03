@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Incident from '../database/schemas/incident.schema';
 import validation from '../util/validation';
 import helpers from '../util/helpers';
+import User from '../database/schemas/user.schema';
 
 const incidents = Router();
 
@@ -31,8 +32,18 @@ incidents.post('/', async ({ body }, res) => {
 
         if (helpers.sendErrorIf(res, error, 400)) return;
 
-        const incident = new Incident(body);
+        const createdBy = new User(body.created_by);
+
+        const incident = new Incident({
+            created_by: createdBy._id,
+            content: body.content,
+            title: body.title,
+            officer: body.officer,
+            location: body.location
+        });
+
         await incident.save();
+        await createdBy.save();
 
         res.json({ _id: incident._id });
     } catch (error) {
@@ -64,6 +75,7 @@ incidents.get('/:id', async (req, res) => {
         const incident = await Incident
             .findById(id)
             .populate('officer')
+            .populate('created_by')
             .lean()
             .exec();
 

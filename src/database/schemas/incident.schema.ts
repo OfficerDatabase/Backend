@@ -19,8 +19,14 @@ const schema = new Schema({
         default: -1
     },
     location: {
-        type: String,
-        default: 'Unknown'
+        state: {
+            type: String,
+            default: 'Unknown'
+        },
+        city: {
+            type: String,
+            default: 'Unknown'
+        }
     },
     created_by: {
         type: Schema.Types.ObjectId,
