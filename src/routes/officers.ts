@@ -15,6 +15,20 @@ const multer = Multer({
     }
 });
 
+officers.get('/list', async (_ , res) => {
+    try {
+        const officer = await Officer
+            .find({})
+            .select('fullname badge')
+            .lean()
+            .exec();
+
+        res.json({ data: officer });
+    } catch (error) {
+        helpers.sendError(res, error);
+    }
+});
+
 officers.get('/', async ({ query }, res) => {
     try {
         const page = query.page || 0;

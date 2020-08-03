@@ -72,7 +72,7 @@ incidents.get('/latest', async ({ query }, res) => {
 incidents.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const incident = await Incident
+        const incident: any = await Incident
             .findById(id)
             .populate('officer')
             .populate('created_by')

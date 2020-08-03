@@ -14,8 +14,7 @@ export default {
                 .max(2054)
                 .required(),
             officer: Joi
-                .string()
-                .valid(''),
+                .number(),
             location: {
                 state: Joi.string().allow(''),
                 city: Joi.string().allow('')
