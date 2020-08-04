@@ -4,7 +4,8 @@
 
 # Secret Files
 .env
-config.json
+*.config.json
+!*.example.*
 
 # NPM Files
 node_modules/
