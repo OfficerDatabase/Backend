@@ -57,7 +57,7 @@ incidents.get('/latest', async ({ query }, res) => {
             .find({})
             .select('officer created_by created_at')
             .populate('officer')
-            .populate('')
+            .populate('created_by')
             .sort('-created_at')
             .limit(8)
             .lean()
