@@ -5,8 +5,8 @@ import logger from 'morgan';
 import helpers from './util/helpers';
 
 const app = express();
-const host: string = process.env.HOST || 'localhost';
-const port: number = parseInt(process.env.PORT) || 8080;
+const host: string = process.env.BACKEND_HOST || 'localhost';
+const port: number = parseInt(process.env.BACKEND_PORT) || 8080;
 
 app.use(logger('dev'));
 app.use(express.json());
