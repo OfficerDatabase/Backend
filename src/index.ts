@@ -1,5 +1,6 @@
 import db from './database';
 import * as Firebase from 'firebase-admin';
+// @ts-ignore
 import * as FirebaseConfig from './firebase.config.json';
 
 (() => new Promise<unknown>((resolve, reject) => {
