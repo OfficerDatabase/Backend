@@ -1,19 +1,8 @@
-import env from 'dotenv';
-const { error } = env.config();
-
 import db from './database';
-
-// @ts-ignore
 import * as Firebase from 'firebase-admin';
-// @ts-ignore
 import * as FirebaseConfig from './firebase.config.json';
 
 (() => new Promise<unknown>((resolve, reject) => {
-
-    if (error) {
-        return reject(error);
-    }
-
     const handle = async () => {
 
         Firebase.initializeApp({
