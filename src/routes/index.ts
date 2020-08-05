@@ -19,22 +19,29 @@ router.use(({ body }, res, next) => {
 
 router.get('/stats', async ({ query }, res) => {
     try {
-        const incidents = await Incident.estimatedDocumentCount();
-        const officers = await Officer.estimatedDocumentCount();
+        const incidents = await Incident.estimatedDocumentCount().exec();
+        const officers = await Officer.estimatedDocumentCount().exec();
+        const lastIncident = await Incident.findOne({})
+            .select('created_at')
+            .sort('-created_at')
+            .exec();
 
         res.json({
             data: [
                 {
                     name: 'Incidents',
-                    value: incidents
+                    value: incidents,
+                    href: '/incidents'
                 },
                 {
                     name: 'Officers',
-                    value: officers
+                    value: officers,
+                    href: '/officers'
                 },
                 {
-                    name: 'Placeholder',
-                    value: 0
+                    name: 'Last Incident',
+                    value: lastIncident,
+                    href: `/incidents/${lastIncident._id}`
                 }
             ]
         });
