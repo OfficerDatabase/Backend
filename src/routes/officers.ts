@@ -102,11 +102,13 @@ officers.get('/:id/incidents', async ({ params, query }, res) => {
             .findById(id)
             .populate({
                 path: 'incidents',
-                sort: '-created_at'
+                options: {
+                    sort: '-created_at',
+                },
+                skip: (parseInt(page.toString()) - 1) * limit,
+                limit,
             })
             .select('incidents')
-            .limit(limit)
-            .skip((parseInt(page.toString()) - 1) * limit)
             .lean()
             .exec();
 
