@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+// @ts-ignore
 import autoIncrement from 'mongoose-auto-increment';
 
 const schema = new Schema({

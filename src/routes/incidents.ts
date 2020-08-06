@@ -3,24 +3,30 @@ import Incident from '../database/schemas/incident.schema';
 import validation from '../util/validation';
 import helpers from '../util/helpers';
 import User from '../database/schemas/user.schema';
+import { page_limits } from '../config.json';
+import Officer from '../database/schemas/officer.schema';
 
 const incidents = Router();
 
-const limit = 20;
-
 incidents.get('/', async ({ query }, res) => {
     try {
-        const page = query.page || 0;
+        const page = query.page || 1;
+        const limit = page_limits.incidents;
 
         const incidents = await Incident
             .find({})
-            .skip(parseInt(page.toString()) * limit)
             .limit(limit)
+            .skip((parseInt(page.toString()) - 1) * limit)
             .sort('-created_at')
             .lean()
             .exec();
 
-        res.json({ data: incidents });
+        const incidentCount = await Incident.countDocuments();
+
+        res.json({
+            data: incidents,
+            pages: Math.ceil(incidentCount / limit)
+        });
     } catch (error) {
         helpers.sendError(res, error);
     }
@@ -44,6 +50,12 @@ incidents.post('/', async ({ body }, res) => {
 
         await incident.save();
         await createdBy.save();
+
+        await Officer.findByIdAndUpdate(body.officer, {
+            $push: {
+                incidents: incident._id
+            }
+        }).exec();
 
         res.json({ _id: incident._id });
     } catch (error) {

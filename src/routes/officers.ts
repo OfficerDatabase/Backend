@@ -2,12 +2,14 @@ import { Router } from 'express';
 import Officer from '../database/schemas/officer.schema';
 import validation from '../util/validation';
 import helpers from '../util/helpers';
+// @ts-ignore
 import Multer from 'multer';
 import { FirebaseFile } from '../util/classes';
+import { page_limits } from '../config.json';
+import Incident from '../database/schemas/incident.schema';
 
 const officers = Router();
 
-const limit = 20;
 const multer = Multer({
     storage: Multer.memoryStorage(),
     limits: {
@@ -31,16 +33,22 @@ officers.get('/list', async (_ , res) => {
 
 officers.get('/', async ({ query }, res) => {
     try {
-        const page = query.page || 0;
+        const limit = page_limits.officers;
+        const page = query.page || 1;
 
-        const officer = await Officer
+        const officers = await Officer
             .find({})
             .limit(limit)
-            .skip(parseInt(page.toString()) * limit)
+            .skip((parseInt(page.toString())-1) * limit)
             .lean()
             .exec();
 
-        res.json({ data: officer });
+        const officerCount = await Officer.countDocuments();
+
+        res.json({
+            data: officers,
+            pages: Math.ceil(officerCount / limit)
+        });
     } catch (error) {
         helpers.sendError(res, error);
     }
@@ -84,20 +92,30 @@ officers.get('/:id', async (req, res) => {
     }
 });
 
-officers.get('/:id/incidents', async (req, res) => {
+officers.get('/:id/incidents', async ({ params, query }, res) => {
     try {
-        const { id } = req.params;
-        const incidents = await Officer
+        const limit = page_limits.officer_incidents;
+        const page = query.page || 1;
+        const { id } = params;
+
+        const officer: any = await Officer
             .findById(id)
             .populate({
                 path: 'incidents',
                 sort: '-created_at'
             })
             .select('incidents')
+            .limit(limit)
+            .skip((parseInt(page.toString()) - 1) * limit)
             .lean()
             .exec();
 
-        res.json({ data: incidents });
+        const incidentCount = await Incident.countDocuments({ officer: id });
+
+        res.json({
+            data: officer.incidents,
+            pages: Math.ceil(incidentCount / limit)
+        });
     } catch (error) {
         helpers.sendError(res, error);
     }
