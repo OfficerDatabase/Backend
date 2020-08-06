@@ -40,6 +40,7 @@ officers.get('/', async ({ query }, res) => {
             .find({})
             .limit(limit)
             .skip((parseInt(page.toString())-1) * limit)
+            .sort('fullname')
             .lean()
             .exec();
 
@@ -116,7 +117,8 @@ officers.get('/:id/incidents', async ({ params, query }, res) => {
 
         res.json({
             data: officer.incidents,
-            pages: Math.ceil(incidentCount / limit)
+            pages: Math.ceil(incidentCount / limit),
+            incidentCount
         });
     } catch (error) {
         helpers.sendError(res, error);
