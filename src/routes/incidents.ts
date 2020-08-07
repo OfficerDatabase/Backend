@@ -11,17 +11,26 @@ const incidents = Router();
 incidents.get('/', async ({ query }, res) => {
     try {
         const page = query.page || 1;
+        const search = query.search || '';
         const limit = page_limits.incidents;
 
+        const criteria = [
+            'title', 'content', 'location.state' 
+        ]
+            .map(string => ({
+                [string]: { $regex: search, $options: 'i' }
+            }));
+
+
         const incidents = await Incident
-            .find({})
+            .find({ $or: criteria })
             .limit(limit)
             .skip((parseInt(page.toString()) - 1) * limit)
             .sort('-created_at')
             .lean()
             .exec();
 
-        const incidentCount = await Incident.countDocuments();
+        const incidentCount = await Incident.countDocuments({ $or: criteria });
 
         res.json({
             data: incidents,
