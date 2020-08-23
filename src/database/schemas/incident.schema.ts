@@ -19,6 +19,10 @@ const schema = new Schema({
         ref: 'officers',
         default: -1
     },
+    date: {
+        type: Date,
+        default: Date.now
+    },
     location: {
         state: {
             type: String,

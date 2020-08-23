@@ -15,6 +15,9 @@ export default {
                 .required(),
             officer: Joi
                 .number(),
+            date: Joi
+                .date()
+                .less('now'),
             location: {
                 state: Joi.string().allow(''),
                 city: Joi.string().allow('')
