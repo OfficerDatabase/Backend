@@ -19,8 +19,20 @@ export default {
                 .date()
                 .less('now'),
             location: {
-                state: Joi.string().allow(''),
-                city: Joi.string().allow('')
+                state: Joi
+                    .object()
+                    .keys({
+                        name: Joi.string(),
+                        value: Joi.number(),
+                    })
+                    .allow('', null, undefined),
+                city: Joi
+                    .object()
+                    .keys({
+                        name: Joi.string(),
+                        value: Joi.number(),
+                    })
+                    .allow('', null, undefined),
             },
             created_by: Joi
                 .object({
