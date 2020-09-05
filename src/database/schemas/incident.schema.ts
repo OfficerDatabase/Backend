@@ -35,8 +35,14 @@ const schema = new Schema({
             }
         },
         city: {
-            type: String,
-            default: 'Unknown'
+            name: {
+                type: String,
+                default: 'Unknown'
+            },
+            value: {
+                type: Number,
+                default: -1
+            }
         }
     },
     created_by: {

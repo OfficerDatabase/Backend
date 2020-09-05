@@ -25,14 +25,14 @@ export default {
                         name: Joi.string(),
                         value: Joi.number(),
                     })
-                    .allow('', null, undefined),
+                    .optional(),
                 city: Joi
                     .object()
                     .keys({
                         name: Joi.string(),
                         value: Joi.number(),
                     })
-                    .allow('', null, undefined),
+                    .optional(),
             },
             created_by: Joi
                 .object({
