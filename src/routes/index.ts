@@ -29,17 +29,17 @@ router.get('/stats', async ({ query }, res) => {
         res.json({
             data: [
                 {
-                    name: 'Incidents',
+                    name: 'incidents made by people.',
                     value: incidents,
                     href: '/incidents'
                 },
                 {
-                    name: 'Officers',
+                    name: 'officers reported in the website.',
                     value: officers,
                     href: '/officers'
                 },
                 {
-                    name: 'Last Incident',
+                    name: 'a new incident was created.',
                     value: lastIncident,
                     href: `/incidents/${lastIncident._id}`
                 }

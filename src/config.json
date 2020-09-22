@@ -1,7 +1,7 @@
 {
   "page_limits": {
-    "officers": 1,
-    "incidents": 1,
-    "officer_incidents": 1
+    "officers": 20,
+    "incidents": 30,
+    "officer_incidents": 8
   }
 }

@@ -41,6 +41,7 @@ officers.get('/', async ({ query }, res) => {
             .limit(limit)
             .skip((parseInt(page.toString())-1) * limit)
             .sort('fullname')
+            .populate('latest_incident')
             .lean()
             .exec();
 
